@@ -12,9 +12,9 @@ const task_routes_1 = __importDefault(require("./routes/task.routes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 // Porta usada localmente antes
-// const PORT = process.env.PORT || 3333;
+// const PORT = 3333;
 // Porta correta para Fly.io (produção)
-const PORT = process.env.PORT || 8080;
+const PORT = Number(process.env.PORT) || 8080;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 // Rota teste
@@ -30,6 +30,6 @@ mongoose_1.default
     .then(() => console.log("✅ MongoDB conectado"))
     .catch(console.error);
 // Servidor
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
