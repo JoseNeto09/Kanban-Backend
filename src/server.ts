@@ -3,13 +3,18 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
-//import authRoutes from "./routes/auth.routes";
+// import authRoutes from "./routes/auth.routes";
 import taskRoutes from "./routes/task.routes";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3333;
+
+// Porta usada localmente antes
+// const PORT = process.env.PORT || 3333;
+
+// Porta correta para Fly.io (produção)
+const PORT = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json());
@@ -20,11 +25,12 @@ app.get("/", (req, res) => {
 });
 
 // 🔗 CONECTANDO AS ROTAS AQUI
-//app.use("/auth", authRoutes);
+// app.use("/auth", authRoutes);
 app.use("/tasks", taskRoutes);
 
 // MongoDB
-mongoose.connect(process.env.MONGO_URL!)
+mongoose
+  .connect(process.env.MONGO_URL!)
   .then(() => console.log("✅ MongoDB conectado"))
   .catch(console.error);
 
