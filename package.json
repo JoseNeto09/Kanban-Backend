@@ -2,12 +2,11 @@
   "name": "kanban-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/server.js",
-
+  "main": "dist/src/server.js",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
     "build": "tsc",
-    "start": "node src/dist/server.js"
+    "start": "node dist/src/server.js"
   },
   "keywords": [],
   "author": "",
