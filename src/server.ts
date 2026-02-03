@@ -11,10 +11,10 @@ dotenv.config();
 const app = express();
 
 // Porta usada localmente antes
-// const PORT = process.env.PORT || 3333;
+// const PORT = 3333;
 
 // Porta correta para Fly.io (produção)
-const PORT = process.env.PORT || 8080;
+const PORT = Number(process.env.PORT) || 8080;
 
 app.use(cors());
 app.use(express.json());
@@ -35,6 +35,6 @@ mongoose
   .catch(console.error);
 
 // Servidor
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
