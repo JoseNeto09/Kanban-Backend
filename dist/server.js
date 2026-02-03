@@ -7,29 +7,25 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
-// import authRoutes from "./routes/auth.routes";
 const task_routes_1 = __importDefault(require("./routes/task.routes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-// Porta usada localmente antes
-// const PORT = 3333;
-// Porta correta para Fly.io (produção)
-const PORT = Number(process.env.PORT) || 8080;
+// 🚨 Fly injeta a porta automaticamente
+const PORT = Number(process.env.PORT) || 3000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-// Rota teste
 app.get("/", (req, res) => {
     res.json({ status: "API Kanban rodando 🚀" });
 });
-// 🔗 CONECTANDO AS ROTAS AQUI
-// app.use("/auth", authRoutes);
 app.use("/tasks", task_routes_1.default);
-// MongoDB
+// ❗ Garantia de variável
+if (!process.env.MONGO_URL) {
+    throw new Error("❌ MONGO_URL não definida");
+}
 mongoose_1.default
     .connect(process.env.MONGO_URL)
     .then(() => console.log("✅ MongoDB conectado"))
     .catch(console.error);
-// Servidor
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
