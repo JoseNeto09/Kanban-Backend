@@ -1,31 +1,33 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const dotenv_1 = __importDefault(require("dotenv"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const task_routes_1 = __importDefault(require("./routes/task.routes"));
-dotenv_1.default.config();
-const app = (0, express_1.default)();
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import taskRoutes from "./routes/task.routes";
+dotenv.config();
+const app = express();
 // 🚨 Fly injeta a porta automaticamente
 const PORT = Number(process.env.PORT) || 3000;
-app.use((0, cors_1.default)());
-app.use(express_1.default.json());
+app.use(cors());
+app.use(express.json());
+// Rota teste
 app.get("/", (req, res) => {
     res.json({ status: "API Kanban rodando 🚀" });
 });
-app.use("/tasks", task_routes_1.default);
-// ❗ Garantia de variável
+app.use("/tasks", taskRoutes);
+// ❗ Garantia de variável de ambiente
 if (!process.env.MONGO_URL) {
     throw new Error("❌ MONGO_URL não definida");
 }
-mongoose_1.default
+// 🔗 Conecta no Mongo e só depois sobe o servidor
+mongoose
     .connect(process.env.MONGO_URL)
-    .then(() => console.log("✅ MongoDB conectado"))
-    .catch(console.error);
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`🚀 Servidor rodando na porta ${PORT}`);
+    .then(() => {
+    console.log("✅ MongoDB conectado");
+    app.listen(PORT, "0.0.0.0", () => {
+        console.log(`🚀 Servidor rodando na porta ${PORT}`);
+    });
+})
+    .catch((err) => {
+    console.error("❌ Erro ao conectar no MongoDB:", err.message);
+    process.exit(1);
 });

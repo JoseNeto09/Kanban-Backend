@@ -1,24 +1,15 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTask = createTask;
-exports.listTasks = listTasks;
-exports.updateTask = updateTask;
-exports.deleteTask = deleteTask;
-const Task_1 = __importDefault(require("../Models/Task"));
+import Task from "../Models/Task";
 /* =========================
    CREATE TASK
 ========================= */
-async function createTask(req, res) {
+export async function createTask(req, res) {
     const { title, description, status } = req.body;
     if (typeof title !== "string" ||
         typeof description !== "string" ||
         typeof status !== "string") {
         return res.status(400).json({ error: "Dados inválidos" });
     }
-    const task = await Task_1.default.create({
+    const task = await Task.create({
         title,
         description,
         status,
@@ -28,17 +19,17 @@ async function createTask(req, res) {
 /* =========================
    LIST TASKS
 ========================= */
-async function listTasks(req, res) {
-    const tasks = await Task_1.default.find().sort({ createdAt: -1 });
+export async function listTasks(req, res) {
+    const tasks = await Task.find().sort({ createdAt: -1 });
     return res.json(tasks);
 }
 /* =========================
    UPDATE TASK
 ========================= */
-async function updateTask(req, res) {
+export async function updateTask(req, res) {
     const { id } = req.params;
     const { title, description, status } = req.body;
-    const task = await Task_1.default.findByIdAndUpdate(id, { title, description, status }, { new: true });
+    const task = await Task.findByIdAndUpdate(id, { title, description, status }, { new: true });
     if (!task) {
         return res.status(404).json({ error: "Tarefa não encontrada" });
     }
@@ -47,9 +38,9 @@ async function updateTask(req, res) {
 /* =========================
    DELETE TASK
 ========================= */
-async function deleteTask(req, res) {
+export async function deleteTask(req, res) {
     const { id } = req.params;
-    const task = await Task_1.default.findByIdAndDelete(id);
+    const task = await Task.findByIdAndDelete(id);
     if (!task) {
         return res.status(404).json({ error: "Tarefa não encontrada" });
     }

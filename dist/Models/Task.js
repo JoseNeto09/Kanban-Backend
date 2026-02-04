@@ -1,9 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = require("mongoose");
-const TaskSchema = new mongoose_1.Schema({
+import { Schema, model } from "mongoose";
+const TaskSchema = new Schema({
     title: String,
     description: String,
     status: String,
 }, { timestamps: true });
-exports.default = (0, mongoose_1.model)("Task", TaskSchema);
+export default model("Task", TaskSchema);
