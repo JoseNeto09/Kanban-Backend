@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
-import taskRoutes from "./routes/task.routes";
+import taskRoutes from "./routes/task.routes.js";
 
 dotenv.config();
 
